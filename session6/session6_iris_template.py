@@ -29,31 +29,18 @@ def setup_application_list():
 
 
 class IrisRuleClassifier:
-    """A class that bundles configuration and prediction/evaluation behavior.
-
-    Configuration (threshold, labels) is stored as attributes on self.
-    Behavior (prediction, evaluation) is implemented as methods.
-    """
-
     # Task 1: Define the __init__ Method
     def __init__(self, threshold=2.0):
-        """Store configuration inside the object.
+        """Initialize classifier with threshold and labels"""
+        self.threshold = threshold 
+        self.positive_label = "setosa"
+        self.negative_label = "not_setosa"
 
-        This method runs automatically when you create an IrisRuleClassifier.
-        Use self.attribute_name = value to store each item on the object.
 
-        Args:
             threshold (float): The petal_length boundary for classification.
                                Flowers with petal_length below this value
                                are predicted as setosa.
-        """
-        # Store the threshold as an attribute on self.
-        # self.threshold = <your code here>
-
-        # We enforce these attribute names so later sessions can reuse your class.
-        # self.positive_label = <your code here>   # should be the string "setosa"
-        # self.negative_label = <your code here>   # should be the string "not_setosa"
-        pass
+       
 
     def print_status(self, status_text):
         """Print a small status message in the format: [STATUS] <status_text>.
@@ -80,11 +67,10 @@ class IrisRuleClassifier:
         Returns:
             str: self.positive_label or self.negative_label.
         """
-        # 1. Read sample["petal_length"]
-        # 2. Compare it to self.threshold
-        # 3. Return self.positive_label if petal_length < self.threshold
-        # 4. Otherwise return self.negative_label
-        pass
+        if sample["petal_length"] < self.threshold:
+            return self.positive_label
+        else:
+            return self.negative_label
 
     # Task 3: Implement derive_true_label
     def derive_true_label(self, sample):
@@ -103,7 +89,11 @@ class IrisRuleClassifier:
         Returns:
             str: self.positive_label if species matches, else self.negative_label.
         """
-        pass
+        if sample["species"] == self.positive_label:
+             return self.positive_label
+        else:
+             return self.negative_label
+
 
     # Task 4: Implement update_result_counts
     def update_result_counts(self, correct, wrong, total, y_pred_list, y_pred, y_true):
@@ -205,10 +195,10 @@ class IrisRuleClassifier:
 def main():
 
     # Step 1a: Create a classifier object with a chosen threshold
-    # classifier = IrisRuleClassifier(<your code here>)
-    # print("Threshold:", <your code here>)
-    # print("Positive label:", <your code here>)
-    # print("Negative label:", <your code here>)
+    classifier = IrisRuleClassifier(threshold=2.0)
+    print("Threshold:", classifier)
+    print("Positive label:", classifier.positive_label)
+    print("Negative label:", classifier.negative_label)
 
     # Task 2: Implement compute_threshold_prediction
     # Can you write the syntax by urself
@@ -217,7 +207,7 @@ def main():
     # print(<your code here>) # should print: setosa
 
     # Task 3: Implement derive_true_label
-    # sample_setosa = {"species": "setosa", "petal_length": 1.4}
+    sample_setosa = {"species": "setosa", "petal_length": 1.4}
     # sample_versicolor = {"species": "versicolor", "petal_length": 4.7}
     # # setosa
     # print(f"Setosa prediction: {classifier.derive_true_label(sample_setosa)}")

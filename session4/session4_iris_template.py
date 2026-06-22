@@ -13,12 +13,7 @@ NEGATIVE_LABEL = "not_setosa"
 
 # Task 1: Create a helper function to print status updates
 def make_print_status(status_text):
-    """Print a small status message.
-
-    Args:
-        status_text (str): A short message to show what the program is doing.
-    """
-    pass
+    print (f"\n==={status_text}===")
 
 # Task 2: Create the flower dataset
 
@@ -37,56 +32,31 @@ def setup_application_list():
         "species": "setosa"
     }
 
-    # flower2 = {
-    #     "id": "flower2",
-    # }
+    flower2 = {
+        "id": "flower1",
+        "sepal_length": 4.9,
+        "sepal_width": 3.0,
+        "petal_length": 1.4,
+        "petal_width": 0.2,
+        "species": "setosa"
+    }
 
     # Task 2 in session 3: Build the dataset list
     # Combine our dictionaries into a single list
-    dataset = [flower1
-               #    , flower2
-               ]
+    dataset = [flower1,flower2]
     print("Dataset:", dataset)
     # Note here that we return the dataset list from this function, so we can use it later in the main function.
     return dataset
 
 # Task 5: Predict the class using petal length
-
-
 def compute_threshold_prediction(sample):
-    """Predict the label for one flower sample.
-
-    This uses the same rule from Session 3:
-    if petal_length is less than 2.0, predict "setosa".
-    Otherwise, predict "not_setosa".
-
-    Args:
-        sample (dict): One flower sample.
-
-    Returns:
-        str: The predicted label.
-    """
-    # we deliberately put the pass here, and student need to replace it with the if statement and return statement to make the prediction.
-    # This should be given in the instruction, on what they should paste. sub task 5, the need to also give the return statement, which is missing in the instruction now.
-    pass
+    if sample[FEATURE_NAME] < THRESHOLD:
+        return POSITIVE_LABEL
+    else:
+        return NEGATIVE_LABEL
 
 # Task 6: Convert species into the lesson’s binary label
-
-
 def derive_true_label(sample):
-    """Convert the real species into the lesson label.
-
-    In this lesson, we only use two labels:
-    - "setosa"
-    - "not_setosa"
-
-    Args:
-        sample (dict): One flower sample.
-
-    Returns:
-        str: The true label for this lesson.
-    """
-
     if sample[LABEL_KEY] == POSITIVE_LABEL:
         y_true = POSITIVE_LABEL
     else:
@@ -95,61 +65,28 @@ def derive_true_label(sample):
     return y_true
 
 # Task 7: Update prediction counts and save results
-
-
 def update_result_counts(correct, wrong, total, y_pred_list, y_pred, y_true):
-    """Update the counters and prediction list for one sample.
+    if y_pred == y_true:
+        correct += 1
+    else:
+        wrong += 1
 
-    Args:
-        correct (int): Current number of correct predictions.
-        wrong (int): Current number of wrong predictions.
-        total (int): Current number of processed samples.
-        y_pred_list (list): Current list of predictions.
-        y_pred (str): Predicted label.
-        y_true (str): True label.
+    total += 1
+    y_pred_list.append(y_pred)
 
-    Returns:
-        tuple: Updated correct, wrong, total, y_pred_list
-    """
-    # we will provide only a pass, but we drop all of below code, and student need to write the if statement to compare y_pred and y_true, and update the correct and wrong counts accordingly. They also need to remember to update the total count and append the y_pred to the y_pred_list.
-    pass
 
 # Task 10: Compute the overall accuracy
-
-
 def calculate_accuracy(correct, total):
-    """Calculate accuracy percentage.
-
-        Args:
-        correct (int): Number of correct predictions.
-        total (int): Number of processed samples.
-
-        Returns:
-                float: Accuracy percentage.
-    """
     if total > 0:
         accuracy = (correct / total) * 100
     else:
         accuracy = 0.0
-
+    return accuracy
     # They need to provide the return value, maybe, we can ask them, what is missing in this function, go and check the function call in the main function, and see what they need to return here to make the main function work.
 
 
 # Entry to Task 4 until Task 9: Run the same prediction loop from Session 3, Wrap the prediction workflow in a function
-
-
 def run_prediction_loop(dataset):
-    """Run the same prediction loop from Session 3, but inside a function.
-
-    This function keeps the beginner-friendly variables:
-    correct, wrong, total, and y_pred_list.
-
-    Args:
-        dataset (list): A list of flower dictionaries.
-
-    Returns:
-        tuple: correct, wrong, total, y_pred_list, accuracy
-    """
     # Task III from Session III: initialize metrics and predictions
     correct = 0      # Count of correct predictions
     wrong = 0        # Count of wrong predictions
@@ -164,6 +101,7 @@ def run_prediction_loop(dataset):
 
         # Task 5: Predict the class using petal length
         y_pred = compute_threshold_prediction(sample)
+        y_true = derive_true_label
 
         # Task 6: Convert species into the lesson’s binary label
         # For task 6, student are require to create the function call and function definition:y_true = derive_true_label(sample)

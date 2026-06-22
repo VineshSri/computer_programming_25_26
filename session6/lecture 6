@@ -1,0 +1,8 @@
+class Coordinate (object): 1 usage
+    def ___init___ (self,x,y)
+        self.x = x
+        self.y = y
+        jjj = 1
+
+c = Coordinate 
+h = 1

@@ -1,0 +1,17 @@
+def get_grade(score):
+    if (80<score<100):
+        return "A"
+    elif (70<score<79):
+        return "B"
+    elif (60<score<69):
+        return "C"
+    elif (50<score<59):
+        return "D"
+    else:
+        return "F"
+    
+print (get_grade(95))
+print (get_grade(78))
+print (get_grade(66))
+print (get_grade(52))
+print (get_grade(30))
